@@ -36,7 +36,10 @@ class TextBasedBrowserTest(StageTest):
             ideal.write(ideal_page)
 
         ideal_page = ideal_page.split('\n')
+        i = 1
         for line in ideal_page:
+            print(i)
+            i+=1
             if line.strip() not in output_page:
                 return False, line.strip()
         return True, ""
@@ -75,6 +78,7 @@ class TextBasedBrowserTest(StageTest):
                      "Chrome/70.0.3538.77 Safari/537.36"
         try:
             page = requests.get(url, headers={'User-Agent': user_agent})
+            print("test response headers" , page.headers)
         except requests.exceptions.ConnectionError:
             raise WrongAnswer(f"An error occurred while tests tried to connect to the page {url}.\n"
                               f"Please try again a bit later.")

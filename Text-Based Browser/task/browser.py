@@ -2,7 +2,8 @@
 import sys
 import os
 import requests
-
+import _locale
+_locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
 
 def is_valid_url(user_input):
     return '.' in user_input
@@ -34,7 +35,9 @@ def send_get_request(url):
 
     if not url.startswith("https://"):
         url = "https://" + url
+
     response = requests.get(url, headers={'User-Agent': user_agent})
+    print(response.headers)
     return response.text
 
 
@@ -45,8 +48,8 @@ def browse(url, cache_dir, history):
     # print(f"browsing: {url}")
     if is_valid_url(url):
         history.append(url)
-        html = send_get_request(url)
-        print(html.rstrip("\n"))
+        html = send_get_request(url).rstrip("\n")
+        print(html)
         save(html, convert_to_file_name(url), cache_dir)
 
     else:
