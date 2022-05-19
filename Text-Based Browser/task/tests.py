@@ -31,7 +31,7 @@ class TextBasedBrowserTest(StageTest):
         ]
 
     def compare_pages(self, output_page, ideal_page):
-        with open('output_page.txt','w') as out , open('output_page.txt','w') as ideal:
+        with open('output_page.txt','w') as out , open('ideal_page.txt','w') as ideal:
             out.write(output_page)
             ideal.write(ideal_page)
 

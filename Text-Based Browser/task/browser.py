@@ -46,7 +46,7 @@ def browse(url, cache_dir, history):
     if is_valid_url(url):
         history.append(url)
         html = send_get_request(url)
-        print(html)
+        print(html.rstrip("\n"))
         save(html, convert_to_file_name(url), cache_dir)
 
     else:
