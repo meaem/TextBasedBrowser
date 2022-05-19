@@ -54,10 +54,11 @@ def browse(url, cache_dir, history):
     if is_valid_url(url):
         history.append(url)
         html = send_get_request(url)  # .rstrip("\n")
-        idx = html.find("tock Selloff May Be Enterin")
-        print("@@@@@@@@@@",idx)
-        for c in html[idx+15:idx+30]:
-            print(c , ord(c))
+        idx = html.find(chr(160))
+        with open('ttt.txt ','a') as ff:
+            print("@@@@@@@@@@",idx,file=ff)
+            for c in html[idx-1:idx+2]:
+                print(c , ord(c),file=ff)
 
         print(html)
         save(html, convert_to_file_name(url), cache_dir)

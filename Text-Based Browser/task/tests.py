@@ -45,18 +45,22 @@ class TextBasedBrowserTest(StageTest):
         # for c in ideal_page[idx + 15:idx + 30]:
         #     print(c, ord(c))
         print("comparison started")
+        print(len(ideal_page))
+        print(len(output_page))
         for i in range(len(ideal_page)):
             if ideal_page[i] != output_page[i]:
-                print("--->",i)
+                print(f"--->{i} ideal_page[{i}]={ord(ideal_page[i])}\toutput_page[{i}]={ord(output_page[i])}",i)
+
 
         print("comparison finished")
-        ideal_page = ideal_page.split('\n')
-        i = 1
-        for line in ideal_page:
-            print(i)
-            i+=1
-            if line.strip() not in output_page:
-                return False, line.strip()
+        # return False,"dssd"
+        # ideal_page = ideal_page.split('\n')
+        # i = 1
+        # for line in ideal_page:
+        #     print(i)
+        #     i+=1
+        #     if line.strip() not in output_page:
+        #         return False, line.strip()
         return True, ""
 
     def _check_files(self, path_for_tabs: str, ideal_page: str):
