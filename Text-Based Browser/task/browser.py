@@ -60,6 +60,7 @@ def browse(url, cache_dir, history):
             for c in html[idx-1:idx+2]:
                 print(c , ord(c),file=ff)
 
+        # print(chr(160))
         print(html)
         save(html, convert_to_file_name(url), cache_dir)
 

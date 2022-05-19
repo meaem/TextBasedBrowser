@@ -47,6 +47,7 @@ class TextBasedBrowserTest(StageTest):
         print("comparison started")
         print(len(ideal_page))
         print(len(output_page))
+        print(ord(output_page[0]))
         for i in range(len(ideal_page)):
             if ideal_page[i] != output_page[i]:
                 print(f"--->{i} ideal_page[{i}]={ord(ideal_page[i])}\toutput_page[{i}]={ord(output_page[i])}",i)
