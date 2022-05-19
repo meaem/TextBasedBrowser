@@ -3,7 +3,9 @@ import sys
 import os
 import requests
 import _locale
+
 _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
+
 
 def is_valid_url(user_input):
     return '.' in user_input
@@ -15,14 +17,14 @@ def convert_to_file_name(url):
 
 
 def save(text, filename, folder):
-    with open(os.path.join(folder, filename), 'w',encoding='utf-8') as f:
+    with open(os.path.join(folder, filename), 'w', encoding='utf-8') as f:
         f.write(text)
 
 
 def print_cached_page(filename, folder, history):
     fn = os.path.join(folder, filename)
     if os.access(fn, os.F_OK):
-        with open(fn, 'r',encoding='utf-8') as f:
+        with open(fn, 'r', encoding='utf-8') as f:
             print(f.read())
         history.append(filename)
     else:
@@ -37,7 +39,10 @@ def send_get_request(url):
         url = "https://" + url
 
     response = requests.get(url, headers={'User-Agent': user_agent})
-    print(response.headers)
+    # print(response.headers)
+    # response.encoding = 'utf-8'
+    # print("****response.encoding*****",response.encoding)
+
     return response.text
 
 
@@ -48,13 +53,19 @@ def browse(url, cache_dir, history):
     # print(f"browsing: {url}")
     if is_valid_url(url):
         history.append(url)
-        html = send_get_request(url).rstrip("\n")
+        html = send_get_request(url)  # .rstrip("\n")
+        idx = html.find("tock Selloff May Be Enterin")
+        print("@@@@@@@@@@",idx)
+        for c in html[idx+15:idx+30]:
+            print(c , ord(c))
+
         print(html)
         save(html, convert_to_file_name(url), cache_dir)
 
     else:
-        # print_cached_page(url, cache_dir, history)
-        raise Exception("incorrrect url")
+        print_cached_page(url, cache_dir, history)
+        # raise Exception("incorrrect url")
+
 
 def main():
     # print(sys.argv)

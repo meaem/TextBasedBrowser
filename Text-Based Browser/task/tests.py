@@ -31,10 +31,25 @@ class TextBasedBrowserTest(StageTest):
         ]
 
     def compare_pages(self, output_page, ideal_page):
-        with open('output_page.txt','w') as out , open('ideal_page.txt','w') as ideal:
-            out.write(output_page)
-            ideal.write(ideal_page)
+        # with open('output_page.txt','w') as out , open('ideal_page.txt','w') as ideal:
+        #     out.write(output_page)
+        #     ideal.write(ideal_page)
+        # print("@@@@@@@@@@output_page")
+        # idx = output_page.find("tock Selloff May Be Enterin")
+        # print("@@@@@@@@@@", idx)
+        # for c in output_page[idx + 15:idx + 30]:
+        #     print(c, ord(c))
+        # print("@@@@@@@@@@ideal_page")
+        # idx = ideal_page.find("tock Selloff May Be Enterin")
+        # print("@@@@@@@@@@", idx)
+        # for c in ideal_page[idx + 15:idx + 30]:
+        #     print(c, ord(c))
+        print("comparison started")
+        for i in range(len(ideal_page)):
+            if ideal_page[i] != output_page[i]:
+                print("--->",i)
 
+        print("comparison finished")
         ideal_page = ideal_page.split('\n')
         i = 1
         for line in ideal_page:
@@ -82,6 +97,7 @@ class TextBasedBrowserTest(StageTest):
         except requests.exceptions.ConnectionError:
             raise WrongAnswer(f"An error occurred while tests tried to connect to the page {url}.\n"
                               f"Please try again a bit later.")
+        print("****page.encoding*****", page.encoding)
         return page.text
 
     def check(self, reply, attach):
