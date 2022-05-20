@@ -2,17 +2,17 @@
 import sys
 import os
 import requests
-import _locale
-
-_locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
+from bs4 import BeautifulSoup
 
 
 def is_valid_url(user_input):
-    return '.' in user_input
+    # return user_input.lower().startswith('https://') and\
+           return '.' in user_input
 
 
 # write your code here
 def convert_to_file_name(url):
+    url = url.replace('https://','')
     return url[0:url.rindex('.')]
 
 
@@ -49,24 +49,34 @@ def send_get_request(url):
 # bloomberg.com
 # nytimes.com
 # back
+def get_human_readable(html):
+    soup = BeautifulSoup(html)
+    # print(soup.prettify())
+    all_tags = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li"])
+    # for a in all_tags:
+    #     print(a)
+    return "\n".join([a.get_text() for a in all_tags if a.get_text()] )
+
+
+
 def browse(url, cache_dir, history):
     # print(f"browsing: {url}")
     if is_valid_url(url):
         history.append(url)
         html = send_get_request(url)  # .rstrip("\n")
-        idx = html.find(chr(160))
-        with open('ttt.txt ','a') as ff:
-            print("@@@@@@@@@@",idx,file=ff)
-            for c in html[idx-1:idx+2]:
-                print(c , ord(c),file=ff)
+        # idx = html.find(chr(160))
+        # with open('ttt.txt ','a') as ff:
+            # print("@@@@@@@@@@",idx,file=ff)
+            # for c in html[idx-1:idx+2]:
+            #     print(c , ord(c),file=ff)
 
         # print(chr(160))
-        print(html)
-        save(html, convert_to_file_name(url), cache_dir)
-
+        txt = get_human_readable(html)
+        print(txt)
+        save(txt, convert_to_file_name(url), cache_dir)
     else:
-        print_cached_page(url, cache_dir, history)
-        # raise Exception("incorrrect url")
+        # print_cached_page(url, cache_dir, history)
+        print("Incorrect URL")
 
 
 def main():
