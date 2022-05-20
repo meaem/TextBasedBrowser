@@ -3,16 +3,17 @@ import sys
 import os
 import requests
 from bs4 import BeautifulSoup
+from colorama import Fore
 
 
 def is_valid_url(user_input):
     # return user_input.lower().startswith('https://') and\
-           return '.' in user_input
+    return '.' in user_input
 
 
 # write your code here
 def convert_to_file_name(url):
-    url = url.replace('https://','')
+    url = url.replace('https://', '')
     return url[0:url.rindex('.')]
 
 
@@ -54,9 +55,9 @@ def get_human_readable(html):
     # print(soup.prettify())
     all_tags = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li"])
     # for a in all_tags:
-    #     print(a)
-    return "\n".join([a.get_text() for a in all_tags if a.get_text()] )
-
+    #     print(a.name)
+    return "\n".join(
+        [Fore.BLUE + a.get_text() + Fore.BLACK if a.name == 'a' else a.get_text() for a in all_tags if a.get_text()])
 
 
 def browse(url, cache_dir, history):
@@ -66,9 +67,9 @@ def browse(url, cache_dir, history):
         html = send_get_request(url)  # .rstrip("\n")
         # idx = html.find(chr(160))
         # with open('ttt.txt ','a') as ff:
-            # print("@@@@@@@@@@",idx,file=ff)
-            # for c in html[idx-1:idx+2]:
-            #     print(c , ord(c),file=ff)
+        # print("@@@@@@@@@@",idx,file=ff)
+        # for c in html[idx-1:idx+2]:
+        #     print(c , ord(c),file=ff)
 
         # print(chr(160))
         txt = get_human_readable(html)
